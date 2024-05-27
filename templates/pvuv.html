@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>星石的气候因子数据</title>
+</head>
+<body>
+    <h1>网页的气候因子数据表格</h1>
+    <div>
+        <table border="1px">
+            <tr style="background-color: aquamarine">
+                <th>bio1</th>
+                <th>bio2</th>
+                <th>bio3</th>
+            </tr>
+
+            {% for row in data %}
+            	<tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</body>
+</html>
