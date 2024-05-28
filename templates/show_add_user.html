@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>提交用户信息</title>
-</head>
-<body>
-    {% include 'nav.html'%}
-    <div>
-        <h1>提交用户信息：</h1>
-        <form action="/do_add_user" method="post">
+{% include 'header.html' %}
+<form action="/do_add_user" method="post">
             <table border="1">
                 <tr>
                     <th>用户名</th>
@@ -31,7 +22,6 @@
                     <td><input type="submit" name="submit" value="提交"></td>
                 </tr>
             </table>
-        </form>
-    </div>
-</body>
-</html>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% include 'footer.html' %}
