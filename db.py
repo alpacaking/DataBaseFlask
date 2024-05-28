@@ -60,6 +60,23 @@ def check_user_login(student_number, pwd):
         return result[0]  # 返回用户信息
     return None  # 用户名或密码错误
 
+# 0.1验证商家登录
+def check_merchant_login(account, pwd):
+    sql = f"SELECT * FROM Merchant WHERE account = '{account}' AND pwd = '{pwd}'"
+    result = query_data(sql)
+    if result:
+        return result[0]  # 返回商家信息
+    return None  # 账号或密码错误
+
+# 0.2验证管理员登录
+def check_admin_login(username, pwd):
+    sql = f"SELECT * FROM Admins WHERE username = '{username}' AND pwd = '{pwd}'"
+    result = query_data(sql)
+    if result:
+        return result[0]  # 返回管理员信息
+    return None  # 账号或密码错误
+
+
 # 1. 用户查看账户信息
 def get_user_info(user_id):
     sql = f"SELECT * FROM User WHERE id = {user_id}"
@@ -214,3 +231,35 @@ def admin_delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
     delete_data(sql)
 
+# -----------------------------------以下为进阶需求
+# a:菜品数据分析：某个商户所有菜品的评分、销量以及购买该菜品次数最多的人
+def analyze_food_data(merchant_id):
+    sql = f"""
+    SELECT f.name, f.score, f.sales_volume, u.name AS top_buyer
+    FROM Food f, User u
+    LEFT JOIN (
+        SELECT uo.detail, u.name, COUNT(uo.id) AS purchase_count
+        FROM UserOrder uo
+        JOIN u ON uo.userId = u.id
+        WHERE uo.merchantId = {merchant_id}
+        GROUP BY uo.detail, u.id
+        ORDER BY purchase_count DESC
+        LIMIT 1
+    ) AS top ON f.id = JSON_EXTRACT(top.detail, '$.foodId')
+    WHERE f.MerchantId = {merchant_id}
+    """
+    return query_data(sql)
+
+# 用户收藏的各个菜品在一段时间内的销量
+def analyze_favorite_food_sales(user_id, start_date, end_date):
+    sql = f"""
+    SELECT f.name, COUNT(uo.id) AS sales_count
+    FROM UserFavoriteDish ufd
+    JOIN Food f ON ufd.foodId = f.id
+    JOIN UserOrder uo ON JSON_CONTAINS(uo.detail, JSON_OBJECT('foodId', f.id)) 
+    WHERE ufd.userId = {user_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
+    GROUP BY f.name
+    """
+    return query_data(sql)
+
+# 未完待续 。。。。。。。。。。
