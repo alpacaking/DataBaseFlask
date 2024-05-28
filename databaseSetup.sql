@@ -77,6 +77,7 @@ CREATE TABLE Food (
 -- 创建 UserOrder 表（整合了 OrderFood 表）
 CREATE TABLE UserOrder (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    foodId INT(10) UNSIGNED NOT NULL COMMENT '菜品id',
     detail TEXT NOT NULL COMMENT '订单信息',
     price_amount DECIMAL(18,2) NOT NULL COMMENT '订单金额',
     userId INT(10) UNSIGNED NOT NULL COMMENT '下单人',
@@ -86,6 +87,7 @@ CREATE TABLE UserOrder (
     add_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
     PRIMARY KEY (id),
     FOREIGN KEY (userId) REFERENCES User(id),
+    FOREIGN KEY (foodId) REFERENCES Food(id),
     FOREIGN KEY (merchantId) REFERENCES Merchant(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

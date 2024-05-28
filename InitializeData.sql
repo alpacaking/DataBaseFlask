@@ -32,15 +32,15 @@ INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, d
 ('叫花鸡', 7, 'jiaohua.jpg', 4.9, 78.00, 65, '香嫩多汁', '高蛋白质', '鸡肉', '无', 2);
 
 -- 插入 UserOrder 数据
-INSERT INTO UserOrder (detail, price_amount, userId, merchantId, status, is_paid) VALUES
-('宫保鸡丁, 微辣, 少盐', 38.00, 1, 1, '已完成', '是'),
-('清蒸鲈鱼, 加姜丝', 68.00, 2, 2, '已完成', '是'),
-('宫保鸡丁, 多放花生', 38.00, 2, 1, '已完成', '否'),
-('麻婆豆腐, 多加辣', 28.00, 3, 1, '已完成', '是'),
-('剁椒鱼头, 少辣', 68.00, 3, 3, '已完成', '否'),
-('东坡肉, 少油', 58.00, 1, 3, '已完成', '是'),
-('红烧狮子头, 正常', 38.00, 2, 3, '已完成', '是'),
-('糖醋排骨, 多糖', 48.00, 1, 3, '已完成', '否');
+INSERT INTO UserOrder (detail, foodid,price_amount, userId, merchantId, status, is_paid) VALUES
+('宫保鸡丁, 微辣, 少盐', 1, 38.00, 1, 1, '已完成', '是'),
+('清蒸鲈鱼, 加姜丝', 4, 68.00, 2, 2, '已完成', '是'),
+('宫保鸡丁, 多放花生', 1, 38.00, 2, 1, '已完成', '否'),
+('麻婆豆腐, 多加辣', 2, 28.00, 3, 1, '已完成', '是'),
+('剁椒鱼头, 少辣', 8, 68.00, 3, 3, '已完成', '否'),
+('东坡肉, 少油', 9, 58.00, 1, 3, '已完成', '是'),
+('红烧狮子头, 正常', 7, 38.00, 2, 3, '已完成', '是'),
+('糖醋排骨, 多糖', 6, 48.00, 1, 3, '已完成', '否');
 
 -- 插入 UserFavoriteMerchant 数据
 INSERT INTO UserFavoriteMerchant (merchantId, userId) VALUES
