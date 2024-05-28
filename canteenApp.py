@@ -3,6 +3,10 @@ from flask import Flask, render_template, request, session, redirect, url_for
 import db
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "uuuunnnnnnhh"
+
+login_in_status = ""
+login_in_id = -1
+
 # 主页面
 @app.route("/")
 def index():
