@@ -236,19 +236,20 @@ def admin_delete_food(food_id):
 def analyze_food_data(merchant_id):
     sql = f"""
     SELECT f.name, f.score, f.sales_volume, u.name AS top_buyer
-    FROM Food f, User u
+    FROM Food f
     LEFT JOIN (
-        SELECT uo.detail, u.name, COUNT(uo.id) AS purchase_count
+        SELECT uo.FoodId, u.name, COUNT(uo.id) AS purchase_count
         FROM UserOrder uo
-        JOIN u ON uo.userId = u.id
+        JOIN User u ON uo.userId = u.id
         WHERE uo.merchantId = {merchant_id}
-        GROUP BY uo.detail, u.id
+        GROUP BY uo.FoodId, u.id
         ORDER BY purchase_count DESC
         LIMIT 1
-    ) AS top ON f.id = JSON_EXTRACT(top.detail, '$.foodId')
+    ) AS top ON f.id = top.FoodId
     WHERE f.MerchantId = {merchant_id}
     """
     return query_data(sql)
+
 
 # 用户收藏的各个菜品在一段时间内的销量
 def analyze_favorite_food_sales(user_id, start_date, end_date):
@@ -256,7 +257,7 @@ def analyze_favorite_food_sales(user_id, start_date, end_date):
     SELECT f.name, COUNT(uo.id) AS sales_count
     FROM UserFavoriteDish ufd
     JOIN Food f ON ufd.foodId = f.id
-    JOIN UserOrder uo ON JSON_CONTAINS(uo.detail, JSON_OBJECT('foodId', f.id)) 
+    JOIN UserOrder uo ON uo.FoodId = f.id
     WHERE ufd.userId = {user_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
     GROUP BY f.name
     """
