@@ -23,9 +23,13 @@ def query_data(sql):
     try:
         cursor = conn.cursor(pymysql.cursors.DictCursor) #返回数据是字典形式，而不是数组
         cursor.execute(sql)
-        return cursor.fetchall()
+        result = cursor.fetchall()
+        if not result:
+            return None  # 返回空值
+        return result
     finally:
         conn.close()
+
 
 #更新数据:
 def insert_or_update_data(sql):
@@ -46,6 +50,15 @@ def delete_data(sql):
         conn.commit()  # 提交
     finally:
         conn.close()
+
+
+# 0.0 验证用户登录
+def check_user_login(student_number, pwd):
+    sql = f"SELECT * FROM User WHERE student_number = '{student_number}' AND pwd = '{pwd}'"
+    result = query_data(sql)
+    if result:
+        return result[0]  # 返回用户信息
+    return None  # 用户名或密码错误
 
 # 1. 用户查看账户信息
 def get_user_info(user_id):
