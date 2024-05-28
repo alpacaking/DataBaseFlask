@@ -231,6 +231,16 @@ def admin_delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
     delete_data(sql)
 
+# 26. 根据分类ID查找分类名称
+def get_food_classification_name(classification_id):
+    sql = f"SELECT name FROM FoodClassification WHERE id = {classification_id}"
+    result = query_data(sql)
+    if result:
+        return result[0]['name']
+    else:
+        return None
+
+
 # -----------------------------------以下为进阶需求
 # a:菜品数据分析：某个商户所有菜品的评分、销量以及购买该菜品次数最多的人
 def analyze_food_data(merchant_id):
