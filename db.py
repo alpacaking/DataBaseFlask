@@ -40,7 +40,7 @@ def insert_or_update_data(sql):
         conn.commit()  # 提交
     except Exception as e:
         print(f"插入/更新数据失败: {e}")
-        return {"error": str(e)}
+        return {"success": False}
     finally:
         conn.close()
     return {"success": True}
@@ -54,7 +54,7 @@ def delete_data(sql):
         conn.commit()  # 提交
     except Exception as e:
         print(f"删除数据失败: {e}")
-        return {"error": str(e)}
+        return {"success": False}
     finally:
         conn.close()
     return {"success": True}
