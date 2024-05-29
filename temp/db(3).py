@@ -17,6 +17,7 @@ def conn_mysql():
         charset="utf8"
     )
 
+#查询数据
 def query_data(sql):
     conn = conn_mysql()
     try:
@@ -31,19 +32,14 @@ def query_data(sql):
 
 
 #更新数据:
-# 更新数据
 def insert_or_update_data(sql):
     conn = conn_mysql()
     try:
         cursor = conn.cursor()
         cursor.execute(sql)
-        conn.commit()  # 提交
-    except Exception as e:
-        print(f"插入/更新数据失败: {e}")
-        return {"success": False}
+        conn.commit() #提交
     finally:
         conn.close()
-    return {"success": True}
 
 # 删除数据
 def delete_data(sql):
@@ -52,82 +48,33 @@ def delete_data(sql):
         cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()  # 提交
-    except Exception as e:
-        print(f"删除数据失败: {e}")
-        return {"success": False}
     finally:
         conn.close()
-    return {"success": True}
 
 
 # 0.0 验证用户登录
 def check_user_login(student_number, pwd):
     sql = f"SELECT * FROM User WHERE student_number = '{student_number}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if "error" not in result and result:
+    if result:
         return result[0]  # 返回用户信息
-    return {"error": "Invalid username or password"}  # 用户名或密码错误
+    return None  # 用户名或密码错误
 
-# 0.1 验证商家登录
+# 0.1验证商家登录
 def check_merchant_login(account, pwd):
     sql = f"SELECT * FROM Merchant WHERE account = '{account}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if "error" not in result and result:
+    if result:
         return result[0]  # 返回商家信息
-    return {"error": "Invalid account or password"}  # 账号或密码错误
+    return None  # 账号或密码错误
 
-# 0.2 验证管理员登录
+# 0.2验证管理员登录
 def check_admin_login(username, pwd):
     sql = f"SELECT * FROM Admins WHERE username = '{username}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if "error" not in result and result:
+    if result:
         return result[0]  # 返回管理员信息
-    return {"error": "Invalid username or password"}  # 账号或密码错误
-
-# 0.3 所有表根据id返回对应元组值
-def get_admins_info(Entity_id):
-    sql = f"SELECT * FROM admins WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_commentfood_info(Entity_id):
-    sql = f"SELECT * FROM commentfood WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_commentmerchant_info(Entity_id):
-    sql = f"SELECT * FROM commentmerchant WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_food_info(Entity_id):
-    sql = f"SELECT * FROM food WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_foodclassification_info(Entity_id):
-    sql = f"SELECT * FROM foodclassification WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_message_info(Entity_id):
-    sql = f"SELECT * FROM message WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_scorefood_info(Entity_id):
-    sql = f"SELECT * FROM scorefood WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_scoremerchant_info(Entity_id):
-    sql = f"SELECT * FROM scoremerchant WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_userfavoritedish_info(Entity_id):
-    sql = f"SELECT * FROM userfavoritedish WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_userfavoritemerchant_info(Entity_id):
-    sql = f"SELECT * FROM userfavoritemerchant WHERE id = {Entity_id}"
-    return query_data(sql)
-
-def get_userorder_info(Entity_id):
-    sql = f"SELECT * FROM userorder WHERE id = {Entity_id}"
-    return query_data(sql)
+    return None  # 账号或密码错误
 
 
 # 1. 用户查看账户信息
@@ -172,21 +119,6 @@ def search_merchant_foods(merchant_id, keyword):
     """
     return query_data(sql)
 
-# 7.1 查看商户的所有餐品
-def get_merchant_foods(merchant_id):
-    sql = f"""
-    SELECT * FROM Food 
-    WHERE MerchantId = {merchant_id}
-    """
-    return query_data(sql)
-
-# 7.2 查看商户的所有餐品分类
-def get_all_foodClassification():
-    sql = f"""
-    SELECT * FROM FoodClassification 
-    """
-    return query_data(sql)
-
 # 8. 查看餐品详细信息
 def get_food_info(food_id):
     sql = f"SELECT * FROM Food WHERE id = {food_id}"
@@ -195,12 +127,12 @@ def get_food_info(food_id):
 # 9. 用户收藏商户
 def favorite_merchant(user_id, merchant_id):
     sql = f"INSERT INTO UserFavoriteMerchant (userId, merchantId) VALUES ({user_id}, {merchant_id})"
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 10. 用户收藏菜品
 def favorite_food(user_id, food_id):
     sql = f"INSERT INTO UserFavoriteDish (userId, foodId) VALUES ({user_id}, {food_id})"
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 11. 用户评价商户
 def rate_merchant(user_id, merchant_id, order_id, score, content):
@@ -210,7 +142,7 @@ def rate_merchant(user_id, merchant_id, order_id, score, content):
     INSERT INTO ScoreMerchant (merchantId, score, commenterId, orderId) 
     VALUES ({merchant_id}, {score}, {user_id}, {order_id});
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 12. 用户评价菜品
 def rate_food(user_id, food_id, order_id, score, content):
@@ -220,7 +152,7 @@ def rate_food(user_id, food_id, order_id, score, content):
     INSERT INTO ScoreFood (foodId, score, commenterId, orderId) 
     VALUES ({food_id}, {score}, {user_id}, {order_id});
     """
-    return  insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 13. 商户查看信息
 def get_merchant_self_info(merchant_id):
@@ -247,19 +179,13 @@ def get_all_foods():
     sql = "SELECT * FROM Food"
     return query_data(sql)
 
-# 18. 用户注册 & 添加用户
+# 18. 用户注册
 def register_user(student_number, pwd, name, sex, birthdate):
-    # 检查 student_number 是否已存在
-    check_sql = f"SELECT * FROM User WHERE student_number = '{student_number}'"
-    check_result = query_data(check_sql)
-    if "error" not in check_result and check_result:
-        return {"success": "Student number already exists"}
-    # 插入新用户
-    insert_sql = f"""
+    sql = f"""
     INSERT INTO User (student_number, pwd, name, sex, BirthDate) 
     VALUES ('{student_number}', '{pwd}', '{name}', '{sex}', '{birthdate}')
     """
-    return insert_or_update_data(insert_sql)
+    insert_or_update_data(sql)
 
 # 19. 用户点餐
 def place_order(user_id, merchant_id, details, price_amount):
@@ -267,22 +193,20 @@ def place_order(user_id, merchant_id, details, price_amount):
     INSERT INTO UserOrder (detail, price_amount, userId, merchantId, status) 
     VALUES ('{details}', {price_amount}, {user_id}, {merchant_id}, '待处理')
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
-    score=4
-    sales_volume=0
+def add_food(merchant_id, name, classification_id, picture, score, price, sales_volume, description, nutrition, ingredient, allergy):
     sql = f"""
     INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId) 
     VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id})
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 21. 商户删除菜品
 def delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 22. 管理员添加商户
 def add_merchant(account, pwd, name, address):
@@ -290,43 +214,33 @@ def add_merchant(account, pwd, name, address):
     INSERT INTO Merchant (account, pwd, name, address) 
     VALUES ('{account}', '{pwd}', '{name}', '{address}')
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 23. 管理员删除商户
 def delete_merchant(merchant_id):
     sql = f"DELETE FROM Merchant WHERE id = {merchant_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 24. 管理员删除用户
 def delete_user(user_id):
     sql = f"DELETE FROM User WHERE id = {user_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 25. 管理员删除菜品
 def admin_delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
-    return delete_data(sql)
-
-# 26. 根据分类ID查找分类名称
-def get_food_classification_name(classification_id):
-    sql = f"SELECT name FROM FoodClassification WHERE id = {classification_id}"
-    result = query_data(sql)
-    if result:
-        return result[0]['name']
-    else:
-        return None
-
+    delete_data(sql)
 
 # -----------------------------------以下为进阶需求
 # a:菜品数据分析：某个商户所有菜品的评分、销量以及购买该菜品次数最多的人
 def analyze_food_data(merchant_id):
     sql = f"""
     SELECT f.name, f.score, f.sales_volume, u.name AS top_buyer
-    FROM Food f, User u
+    FROM Food f
     LEFT JOIN (
         SELECT uo.FoodId, u.name, COUNT(uo.id) AS purchase_count
         FROM UserOrder uo
-        JOIN u ON uo.userId = u.id
+        JOIN User u ON uo.userId = u.id
         WHERE uo.merchantId = {merchant_id}
         GROUP BY uo.FoodId, u.id
         ORDER BY purchase_count DESC
@@ -337,7 +251,7 @@ def analyze_food_data(merchant_id):
     return query_data(sql)
 
 
-# b: 用户收藏的各个菜品在一段时间内的销量
+# 用户收藏的各个菜品在一段时间内的销量
 def analyze_favorite_food_sales(user_id, start_date, end_date):
     sql = f"""
     SELECT f.name, COUNT(uo.id) AS sales_count
@@ -346,32 +260,6 @@ def analyze_favorite_food_sales(user_id, start_date, end_date):
     JOIN UserOrder uo ON uo.FoodId = f.id
     WHERE ufd.userId = {user_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
     GROUP BY f.name
-    """
-    return query_data(sql)
-
-# c: 用户活跃度分析
-def analyze_user_activity(user_id):
-    sql = f"""
-    SELECT 
-        DATE_FORMAT(add_time, '%Y-%m-%d') AS day, 
-        COUNT(id) AS order_count
-    FROM UserOrder
-    WHERE userId = {user_id}
-    GROUP BY day
-    ORDER BY day
-    """
-    return query_data(sql)
-
-# d: 一段时间内某个忠实粉丝在该商户的消费分布
-def analyze_merchant_loyal_customers(merchant_id, start_date, end_date, threshold):
-    sql = f"""
-    SELECT u.name, f.name AS food_name, COUNT(uo.id) AS purchase_count
-    FROM UserOrder uo
-    JOIN User u ON uo.userId = u.id
-    JOIN Food f ON uo.FoodId = f.id
-    WHERE uo.merchantId = {merchant_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
-    GROUP BY u.id, f.id
-    HAVING COUNT(uo.id) > {threshold}
     """
     return query_data(sql)
 

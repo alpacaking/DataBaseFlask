@@ -195,12 +195,12 @@ def get_food_info(food_id):
 # 9. 用户收藏商户
 def favorite_merchant(user_id, merchant_id):
     sql = f"INSERT INTO UserFavoriteMerchant (userId, merchantId) VALUES ({user_id}, {merchant_id})"
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 10. 用户收藏菜品
 def favorite_food(user_id, food_id):
     sql = f"INSERT INTO UserFavoriteDish (userId, foodId) VALUES ({user_id}, {food_id})"
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 11. 用户评价商户
 def rate_merchant(user_id, merchant_id, order_id, score, content):
@@ -210,7 +210,7 @@ def rate_merchant(user_id, merchant_id, order_id, score, content):
     INSERT INTO ScoreMerchant (merchantId, score, commenterId, orderId) 
     VALUES ({merchant_id}, {score}, {user_id}, {order_id});
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 12. 用户评价菜品
 def rate_food(user_id, food_id, order_id, score, content):
@@ -220,7 +220,7 @@ def rate_food(user_id, food_id, order_id, score, content):
     INSERT INTO ScoreFood (foodId, score, commenterId, orderId) 
     VALUES ({food_id}, {score}, {user_id}, {order_id});
     """
-    return  insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 13. 商户查看信息
 def get_merchant_self_info(merchant_id):
@@ -247,19 +247,13 @@ def get_all_foods():
     sql = "SELECT * FROM Food"
     return query_data(sql)
 
-# 18. 用户注册 & 添加用户
+# 18. 用户注册
 def register_user(student_number, pwd, name, sex, birthdate):
-    # 检查 student_number 是否已存在
-    check_sql = f"SELECT * FROM User WHERE student_number = '{student_number}'"
-    check_result = query_data(check_sql)
-    if "error" not in check_result and check_result:
-        return {"success": "Student number already exists"}
-    # 插入新用户
-    insert_sql = f"""
+    sql = f"""
     INSERT INTO User (student_number, pwd, name, sex, BirthDate) 
     VALUES ('{student_number}', '{pwd}', '{name}', '{sex}', '{birthdate}')
     """
-    return insert_or_update_data(insert_sql)
+    insert_or_update_data(sql)
 
 # 19. 用户点餐
 def place_order(user_id, merchant_id, details, price_amount):
@@ -267,22 +261,20 @@ def place_order(user_id, merchant_id, details, price_amount):
     INSERT INTO UserOrder (detail, price_amount, userId, merchantId, status) 
     VALUES ('{details}', {price_amount}, {user_id}, {merchant_id}, '待处理')
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
-    score=4
-    sales_volume=0
+def add_food(merchant_id, name, classification_id, picture, score, price, sales_volume, description, nutrition, ingredient, allergy):
     sql = f"""
     INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId) 
     VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id})
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 21. 商户删除菜品
 def delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 22. 管理员添加商户
 def add_merchant(account, pwd, name, address):
@@ -290,22 +282,22 @@ def add_merchant(account, pwd, name, address):
     INSERT INTO Merchant (account, pwd, name, address) 
     VALUES ('{account}', '{pwd}', '{name}', '{address}')
     """
-    return insert_or_update_data(sql)
+    insert_or_update_data(sql)
 
 # 23. 管理员删除商户
 def delete_merchant(merchant_id):
     sql = f"DELETE FROM Merchant WHERE id = {merchant_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 24. 管理员删除用户
 def delete_user(user_id):
     sql = f"DELETE FROM User WHERE id = {user_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 25. 管理员删除菜品
 def admin_delete_food(food_id):
     sql = f"DELETE FROM Food WHERE id = {food_id}"
-    return delete_data(sql)
+    delete_data(sql)
 
 # 26. 根据分类ID查找分类名称
 def get_food_classification_name(classification_id):

@@ -1,0 +1,23 @@
+{% include 'header_user.html' %}
+<h1>查看收藏餐品</h1>
+<form>
+    <table border="1">
+             <tr>
+                <th>餐品ID</th>
+                <th>名称</th>
+                 <th>描述</th>
+                 <th>价格</th>
+                <th>查看详情</th>
+            </tr>
+            {% for food in datas %}
+                <tr>
+                    <td>{{ food["id"]}}</td>
+                    <td>{{ food["name"]}}</td>
+                    <td>{{ food["description"]}}</td>
+                    <td>{{ food["price"]}}</td>
+                    <td><a href="/user/watch_dishes/{{ food["id"]}}">查看详情</a></td>
+                </tr>
+            {% endfor %}
+    </table>
+</form>
+{% include 'footer.html' %}

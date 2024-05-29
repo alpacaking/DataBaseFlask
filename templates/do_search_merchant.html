@@ -1,0 +1,27 @@
+{% include 'header_user.html' %}
+<h1>搜索结果</h1>
+<form>
+    <table border="1">
+        {% if not datas %}
+            <p>No merchants found.</p>
+        {% else %}
+            <table>
+                <thead>
+                <tr>
+                    <th>店铺名</th>
+                    <th>查看详情</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for merchant in datas %}
+                    <tr>
+                        <td>{{ merchant["name"] }}</td>
+                        <td><a href="/user/watch_merchantDetail/{{ merchant['id'] }}">查看详情</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

@@ -247,19 +247,13 @@ def get_all_foods():
     sql = "SELECT * FROM Food"
     return query_data(sql)
 
-# 18. 用户注册 & 添加用户
+# 18. 用户注册
 def register_user(student_number, pwd, name, sex, birthdate):
-    # 检查 student_number 是否已存在
-    check_sql = f"SELECT * FROM User WHERE student_number = '{student_number}'"
-    check_result = query_data(check_sql)
-    if "error" not in check_result and check_result:
-        return {"success": "Student number already exists"}
-    # 插入新用户
-    insert_sql = f"""
+    sql = f"""
     INSERT INTO User (student_number, pwd, name, sex, BirthDate) 
     VALUES ('{student_number}', '{pwd}', '{name}', '{sex}', '{birthdate}')
     """
-    return insert_or_update_data(insert_sql)
+    return insert_or_update_data(sql)
 
 # 19. 用户点餐
 def place_order(user_id, merchant_id, details, price_amount):
@@ -270,9 +264,7 @@ def place_order(user_id, merchant_id, details, price_amount):
     return insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
-    score=4
-    sales_volume=0
+def add_food(merchant_id, name, classification_id, picture, score, price, sales_volume, description, nutrition, ingredient, allergy):
     sql = f"""
     INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId) 
     VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id})

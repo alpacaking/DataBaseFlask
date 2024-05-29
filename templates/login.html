@@ -15,9 +15,21 @@
             <label for="exampleInputPassword">密码</label>
             <input type="password" name="password" class="form-control" id="exampleInputPassword">
         </div>
-<button name="button" value="user" class="btn btn-primary btn-lg btn-block">用户登陆</button>
+        <button name="button" value="user" class="btn btn-primary btn-lg btn-block">用户登陆</button>
         <button name="button" value="merchant" class="btn btn-primary btn-lg btn-block">商家登陆</button>
         <button name="button" value="admin" class="btn btn-primary btn-lg btn-block">管理员登陆</button>
+
+        <div class="warning">
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Warning!</strong> {{ message }}
+        </div>
+    {% endfor %}
+</div>
+
     </form>
     </div>
 </div>
