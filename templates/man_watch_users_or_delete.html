@@ -1,0 +1,29 @@
+{% include 'header_admin.html' %}
+<h1>所有用户</h1>
+<form>
+    <table border="1">
+             <tr>
+                 <th>ID</th>
+                <th>学号</th>
+                 <th>密码</th>
+                 <th>姓名</th>
+                <th>性别</th>
+                 <th>生日</th>
+                 <th>添加时间</th>
+                 <th>删除</th>
+            </tr>
+            {% for food in datas %}
+                <tr>
+                    <td>{{ user["id"]}}</td>
+                    <td>{{ user["student_number"]}}</td>
+                    <td>{{ user["pwd"]}}</td>
+                    <td>{{ user["name"]}}</td>
+                    <td>{{ user["sex"]}}</td>
+                    <td>{{ user["BirthDate"]}}</td>
+                    <td>{{ user["add_time"]}}</td>
+                    <td><a href="/man/man_do_users_or_delete/{{ user["id"]}}">删除</a></td>
+                </tr>
+            {% endfor %}
+    </table>
+</form>
+{% include 'footer.html' %}
