@@ -1,0 +1,23 @@
+{% include 'header_user.html' %}
+<h1>查看订单历史</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>订单ID</th>
+            <th>订单时间</th>
+            <th>订单详情</th>
+            <th>订单状态</th>
+            <th>查看详情</th>
+        </tr>
+        {% for userorder in datas %}
+            <tr>
+                <td>{{ userorder["id"]}}</td>
+                <td>{{ userorder["add_time"]}}</td>
+                <td>{{ userorder["detail"]}}</td>
+                <td>{{ userorder["status"]}}</td>
+                <td><a href="/user/watch_dishes/{{ userorder["id"] }}">查看详情</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</form>
+{% include 'footer.html' %}

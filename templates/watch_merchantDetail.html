@@ -1,0 +1,27 @@
+{% include 'header_user.html' %}
+<h1>店铺详细信息</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>店铺ID</th>
+            <td>{{ merchant["id"] }}</td>
+        </tr>
+        <tr>
+            <th>名称</th>
+            <td>{{ merchant["name"] }}</td>
+        </tr>
+        <tr>
+            <th>地址</th>
+            <td>{{ merchant["address"] }}</td>
+        </tr>
+        <tr>
+            <th>添加时间</th>
+            <td>{{ merchant["add_time"] }}</td>
+        </tr>
+        <tr>
+            <th>查看所有菜品</th>
+            <td><a href="/user/watch_merchant_dishes/{{ merchant["id"]}}">查看详情</a></td>
+        </tr>
+    </table>
+</form>
+{% include 'footer.html' %}

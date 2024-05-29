@@ -1,0 +1,12 @@
+{% include 'header_merchant.html' %}
+<h1>搜索结果</h1>
+<form>
+    <table border="1">
+        {% if not result %}
+            <p>删除失败</p>
+        {% else %}
+            <p>删除成功</p>
+        {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

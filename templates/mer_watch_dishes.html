@@ -1,0 +1,51 @@
+{% include 'header_merchant.html' %}
+<h1>查看食品信息</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>食品ID</th>
+            <td>{{ food["id"] }}</td>
+        </tr>
+        <tr>
+            <th>名称</th>
+            <td>{{ food["name"] }}</td>
+        </tr>
+        <tr>
+            <th>食品分类</th>
+            <td>{{ classification }}</td>
+        </tr>
+        <tr>
+            <th>图片</th>
+            <td><img src="/static/fudanLogo.png"/></td>
+        </tr>
+        <tr>
+            <th>评分</th>
+            <td>{{ food["score"] }}</td>
+        </tr>
+        <tr>
+            <th>价格</th>
+            <td>{{ food["price"] }}</td>
+        </tr>
+        <tr>
+            <th>销量</th>
+            <td>{{ food["sales_volume"] }}</td>
+        </tr>
+        <tr>
+            <th>描述</th>
+            <td>{{ food["description"] }}</td>
+        </tr>
+        <tr>
+            <th>营养</th>
+            <td>{{ food["nutrition"] }}</td>
+        </tr>
+        <tr>
+            <th>成分</th>
+            <td>{{ food["ingredient"] }}</td>
+        </tr>
+        <tr>
+            <th>过敏原</th>
+            <td>{{ food["allergy"] }}</td>
+        </tr>
+    </table>
+</form>
+{% include 'footer.html' %}
