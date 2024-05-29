@@ -247,7 +247,7 @@ def get_all_foods():
     sql = "SELECT * FROM Food"
     return query_data(sql)
 
-# 18. 用户注册
+# 18. 用户注册 & 管理员添加用户
 def register_user(student_number, pwd, name, sex, birthdate):
     # 检查 student_number 是否已存在
     check_sql = f"SELECT * FROM User WHERE student_number = '{student_number}'"
@@ -270,7 +270,9 @@ def place_order(user_id, merchant_id, details, price_amount):
     return insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, score, price, sales_volume, description, nutrition, ingredient, allergy):
+def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
+    score=4
+    sales_volume=0
     sql = f"""
     INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId) 
     VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id})
