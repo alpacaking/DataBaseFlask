@@ -69,25 +69,26 @@ def delete_data(sql):
 def check_user_login(student_number, pwd):
     sql = f"SELECT * FROM User WHERE student_number = '{student_number}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if result:
+    if "error" not in result and result:
         return result[0]  # 返回用户信息
-    return None  # 用户名或密码错误
+    return {"error": "Invalid username or password"}  # 用户名或密码错误
 
-# 0.1验证商家登录
+# 0.1 验证商家登录
 def check_merchant_login(account, pwd):
     sql = f"SELECT * FROM Merchant WHERE account = '{account}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if result:
+    if "error" not in result and result:
         return result[0]  # 返回商家信息
-    return None  # 账号或密码错误
+    return {"error": "Invalid account or password"}  # 账号或密码错误
 
-# 0.2验证管理员登录
+# 0.2 验证管理员登录
 def check_admin_login(username, pwd):
     sql = f"SELECT * FROM Admins WHERE username = '{username}' AND pwd = '{pwd}'"
     result = query_data(sql)
-    if result:
+    if "error" not in result and result:
         return result[0]  # 返回管理员信息
-    return None  # 账号或密码错误
+    return {"error": "Invalid username or password"}  # 账号或密码错误
+
 
 
 # 1. 用户查看账户信息
