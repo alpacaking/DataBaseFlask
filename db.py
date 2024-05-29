@@ -294,4 +294,17 @@ def analyze_user_activity(user_id):
     """
     return query_data(sql)
 
+# d: 一段时间内某个忠实粉丝在该商户的消费分布
+def analyze_merchant_loyal_customers(merchant_id, start_date, end_date, threshold):
+    sql = f"""
+    SELECT u.name, f.name AS food_name, COUNT(uo.id) AS purchase_count
+    FROM UserOrder uo
+    JOIN User u ON uo.userId = u.id
+    JOIN Food f ON uo.FoodId = f.id
+    WHERE uo.merchantId = {merchant_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
+    GROUP BY u.id, f.id
+    HAVING COUNT(uo.id) > {threshold}
+    """
+    return query_data(sql)
+
 # 未完待续 。。。。。。。。。。
