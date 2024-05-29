@@ -180,6 +180,13 @@ def get_merchant_foods(merchant_id):
     """
     return query_data(sql)
 
+# 7.2 查看商户的所有餐品分类
+def get_all_foodClassification():
+    sql = f"""
+    SELECT * FROM FoodClassification 
+    """
+    return query_data(sql)
+
 # 8. 查看餐品详细信息
 def get_food_info(food_id):
     sql = f"SELECT * FROM Food WHERE id = {food_id}"
