@@ -17,20 +17,15 @@ def conn_mysql():
         charset="utf8"
     )
 
-#查询数据
-# 查询数据
 def query_data(sql):
     conn = conn_mysql()
     try:
-        cursor = conn.cursor(pymysql.cursors.DictCursor)  # 返回数据是字典形式，而不是数组
+        cursor = conn.cursor(pymysql.cursors.DictCursor) #返回数据是字典形式，而不是数组
         cursor.execute(sql)
         result = cursor.fetchall()
         if not result:
-            return {"error": "No data found"}
+            return None  # 返回空值
         return result
-    except Exception as e:
-        print(f"查询数据失败: {e}")
-        return {"error": str(e)}
     finally:
         conn.close()
 
