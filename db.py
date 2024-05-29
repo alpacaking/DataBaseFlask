@@ -269,7 +269,7 @@ def analyze_food_data(merchant_id):
     return query_data(sql)
 
 
-# 用户收藏的各个菜品在一段时间内的销量
+# b: 用户收藏的各个菜品在一段时间内的销量
 def analyze_favorite_food_sales(user_id, start_date, end_date):
     sql = f"""
     SELECT f.name, COUNT(uo.id) AS sales_count
@@ -278,6 +278,19 @@ def analyze_favorite_food_sales(user_id, start_date, end_date):
     JOIN UserOrder uo ON uo.FoodId = f.id
     WHERE ufd.userId = {user_id} AND uo.add_time BETWEEN '{start_date}' AND '{end_date}'
     GROUP BY f.name
+    """
+    return query_data(sql)
+
+# c: 用户活跃度分析
+def analyze_user_activity(user_id):
+    sql = f"""
+    SELECT 
+        DATE_FORMAT(add_time, '%Y-%m-%d') AS day, 
+        COUNT(id) AS order_count
+    FROM UserOrder
+    WHERE userId = {user_id}
+    GROUP BY day
+    ORDER BY day
     """
     return query_data(sql)
 
