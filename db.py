@@ -295,7 +295,7 @@ def delete_merchant(merchant_id):
     sql = f"DELETE FROM Merchant WHERE id = {merchant_id}"
     return delete_data(sql)
 
-# 24. 管理员删除用户
+# 24.2 管理员删除用户
 def delete_user(user_id):
     sql = f"DELETE FROM User WHERE id = {user_id}"
     return delete_data(sql)
