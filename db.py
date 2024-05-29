@@ -18,28 +18,37 @@ def conn_mysql():
     )
 
 #查询数据
+# 查询数据
 def query_data(sql):
     conn = conn_mysql()
     try:
-        cursor = conn.cursor(pymysql.cursors.DictCursor) #返回数据是字典形式，而不是数组
+        cursor = conn.cursor(pymysql.cursors.DictCursor)  # 返回数据是字典形式，而不是数组
         cursor.execute(sql)
         result = cursor.fetchall()
         if not result:
-            return None  # 返回空值
+            return {"error": "No data found"}
         return result
+    except Exception as e:
+        print(f"查询数据失败: {e}")
+        return {"error": str(e)}
     finally:
         conn.close()
 
 
 #更新数据:
+# 更新数据
 def insert_or_update_data(sql):
     conn = conn_mysql()
     try:
         cursor = conn.cursor()
         cursor.execute(sql)
-        conn.commit() #提交
+        conn.commit()  # 提交
+    except Exception as e:
+        print(f"插入/更新数据失败: {e}")
+        return {"error": str(e)}
     finally:
         conn.close()
+    return {"success": True}
 
 # 删除数据
 def delete_data(sql):
@@ -48,8 +57,12 @@ def delete_data(sql):
         cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()  # 提交
+    except Exception as e:
+        print(f"删除数据失败: {e}")
+        return {"error": str(e)}
     finally:
         conn.close()
+    return {"success": True}
 
 
 # 0.0 验证用户登录
