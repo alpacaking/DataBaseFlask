@@ -119,6 +119,14 @@ def search_merchant_foods(merchant_id, keyword):
     """
     return query_data(sql)
 
+# 7.1 查看商户的所有餐品
+def get_merchant_foods(merchant_id):
+    sql = f"""
+    SELECT * FROM Food 
+    WHERE MerchantId = {merchant_id}
+    """
+    return query_data(sql)
+
 # 8. 查看餐品详细信息
 def get_food_info(food_id):
     sql = f"SELECT * FROM Food WHERE id = {food_id}"
@@ -246,11 +254,11 @@ def get_food_classification_name(classification_id):
 def analyze_food_data(merchant_id):
     sql = f"""
     SELECT f.name, f.score, f.sales_volume, u.name AS top_buyer
-    FROM Food f
+    FROM Food f, User u
     LEFT JOIN (
         SELECT uo.FoodId, u.name, COUNT(uo.id) AS purchase_count
         FROM UserOrder uo
-        JOIN User u ON uo.userId = u.id
+        JOIN u ON uo.userId = u.id
         WHERE uo.merchantId = {merchant_id}
         GROUP BY uo.FoodId, u.id
         ORDER BY purchase_count DESC
