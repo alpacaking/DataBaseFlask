@@ -97,10 +97,6 @@ def get_commentmerchant_info(Entity_id):
     sql = f"SELECT * FROM commentmerchant WHERE id = {Entity_id}"
     return query_data(sql)
 
-def get_food_info(Entity_id):
-    sql = f"SELECT * FROM food WHERE id = {Entity_id}"
-    return query_data(sql)
-
 def get_foodclassification_info(Entity_id):
     sql = f"SELECT * FROM foodclassification WHERE id = {Entity_id}"
     return query_data(sql)
@@ -143,7 +139,7 @@ def get_user_orders(user_id):
 # 3. 用户查看收藏菜品
 def get_user_favorite_dishes(user_id):
     sql = f"""
-    SELECT Food.* FROM UserFavoriteDish 
+    SELECT Food.* FROM UserFavoriteDish
     JOIN Food ON UserFavoriteDish.foodId = Food.id 
     WHERE UserFavoriteDish.userId = {user_id}
     """
@@ -168,7 +164,7 @@ def get_merchant_info(merchant_id):
 def search_merchant_foods(merchant_id, keyword):
     sql = f"""
     SELECT * FROM Food 
-    WHERE MerchantId = {merchant_id} AND name LIKE '%{keyword}%'
+    WHERE MerchantId = {merchant_id} AND is_deleted = 0 AND name LIKE '%{keyword}% '
     """
     return query_data(sql)
 
@@ -176,7 +172,7 @@ def search_merchant_foods(merchant_id, keyword):
 def get_merchant_foods(merchant_id):
     sql = f"""
     SELECT * FROM Food 
-    WHERE MerchantId = {merchant_id}
+    WHERE MerchantId = {merchant_id} AND is_deleted = 0
     """
     return query_data(sql)
 
@@ -189,7 +185,7 @@ def get_all_foodClassification():
 
 # 8. 查看餐品详细信息
 def get_food_info(food_id):
-    sql = f"SELECT * FROM Food WHERE id = {food_id}"
+    sql = f"SELECT * FROM Food WHERE id = {food_id} AND is_deleted = 0"
     return query_data(sql)
 
 # 9. 用户收藏商户
@@ -229,7 +225,7 @@ def get_merchant_self_info(merchant_id):
 
 # 14. 商户管理菜单
 def get_merchant_foods(merchant_id):
-    sql = f"SELECT * FROM Food WHERE MerchantId = {merchant_id}"
+    sql = f"SELECT * FROM Food WHERE MerchantId = {merchant_id} AND is_deleted = 0"
     return query_data(sql)
 
 # 15. 管理员管理用户
@@ -244,7 +240,7 @@ def get_all_merchants():
 
 # 17. 管理员管理菜品
 def get_all_foods():
-    sql = "SELECT * FROM Food"
+    sql = f"SELECT * FROM Food WHERE is_deleted = 0"
     return query_data(sql)
 
 # 18. 用户注册 & 管理员添加用户
@@ -270,18 +266,18 @@ def place_order(user_id, merchant_id, details, price_amount):
     return insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
+def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy,is_deleted):
     score=4
     sales_volume=0
     sql = f"""
-    INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId) 
-    VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id})
+    INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId, is_deleted) 
+    VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id}, {is_deleted})
     """
     return insert_or_update_data(sql)
 
 # 21. 商户删除菜品
 def delete_food(food_id):
-    sql = f"DELETE FROM Food WHERE id = {food_id}"
+    sql = f"DELETE FROM Food WHERE id = {food_id} AND is_deleted = 0"
     return delete_data(sql)
 
 # 22. 管理员添加商户
@@ -304,7 +300,7 @@ def delete_user(user_id):
 
 # 25. 管理员删除菜品
 def admin_delete_food(food_id):
-    sql = f"DELETE FROM Food WHERE id = {food_id}"
+    sql = f"DELETE FROM Food WHERE id = {food_id} AND is_deleted = 0"
     return delete_data(sql)
 
 # 26. 根据分类ID查找分类名称
