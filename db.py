@@ -84,6 +84,50 @@ def check_admin_login(username, pwd):
         return result[0]  # 返回管理员信息
     return {"error": "Invalid username or password"}  # 账号或密码错误
 
+# 0.3 所有表根据id返回对应元组值
+def get_admins_info(Entity_id):
+    sql = f"SELECT * FROM admins WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_commentfood_info(Entity_id):
+    sql = f"SELECT * FROM commentfood WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_commentmerchant_info(Entity_id):
+    sql = f"SELECT * FROM commentmerchant WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_food_info(Entity_id):
+    sql = f"SELECT * FROM food WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_foodclassification_info(Entity_id):
+    sql = f"SELECT * FROM foodclassification WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_message_info(Entity_id):
+    sql = f"SELECT * FROM message WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_scorefood_info(Entity_id):
+    sql = f"SELECT * FROM scorefood WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_scoremerchant_info(Entity_id):
+    sql = f"SELECT * FROM scoremerchant WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_userfavoritedish_info(Entity_id):
+    sql = f"SELECT * FROM userfavoritedish WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_userfavoritemerchant_info(Entity_id):
+    sql = f"SELECT * FROM userfavoritemerchant WHERE id = {Entity_id}"
+    return query_data(sql)
+
+def get_userorder_info(Entity_id):
+    sql = f"SELECT * FROM userorder WHERE id = {Entity_id}"
+    return query_data(sql)
 
 
 # 1. 用户查看账户信息
