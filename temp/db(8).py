@@ -269,10 +269,9 @@ def place_order(user_id, merchant_id, details, price_amount):
     return insert_or_update_data(sql)
 
 # 20. 商户添加菜品
-def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy):
+def add_food(merchant_id, name, classification_id, picture, price, description, nutrition, ingredient, allergy,is_deleted):
     score=4
     sales_volume=0
-    is_deleted=0
     sql = f"""
     INSERT INTO Food (name, classificationId, picture, score, price, sales_volume, description, nutrition, ingredient, allergy, MerchantId, is_deleted) 
     VALUES ('{name}', {classification_id}, '{picture}', {score}, {price}, {sales_volume}, '{description}', '{nutrition}', '{ingredient}', '{allergy}', {merchant_id}, {is_deleted})

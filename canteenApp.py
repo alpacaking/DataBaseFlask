@@ -6,11 +6,6 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "uuuunnnnnnhh"
 
 
-# # 登陆身份
-# login_in_status = ""
-# login_in_id = -1
-
-
 # 主页面
 @app.route("/")
 def index():
@@ -310,15 +305,119 @@ def do_mer_add_dishes():
                         description=description, nutrition=nutrition, ingredient=ingredient, allergy=allergy)
     return render_template("do_mer_add_dishes.html", datas=datas)
 
-# 管理员管理用户
-@app.route("/man/manage_all_users")
-def manage_all_users():
+
+
+
+# 管理员查看全部用户并删除用户
+@app.route("/man/man_watch_users_or_delete")
+def man_watch_users_or_delete():
+    status = request.cookies.get('status')
+    if status != "admin":
+        return redirect(url_for("index"))
     if "user_name" not in session:
         return redirect(url_for("index"))
-    return render_template("show_add_user.html")
+    datas = db.get_all_users()
+    return render_template("man_watch_users_or_delete.html", datas=datas)
 
 
-# 管理员管理商户
+# 管理员删除用户
+@app.route("/man/man_do_users_or_delete/<user_id>")
+def man_do_users_or_delete(food_id):
+    status = request.cookies.get('status')
+    if status != "merchant":
+        return redirect(url_for("index"))
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    print(request.form)
+    datas = db.delete_food(food_id=food_id)
+    result = datas["success"]
+    print("success" + str(result))
+    if result != None:
+        return render_template("mer_do_dishes_or_delete.html", result=result)
+
+
+# 管理员添加用户
+@app.route("/man/show_man_add_users")
+def show_man_add_users():
+    status = request.cookies.get('status')
+    if status != "merchant":
+        return redirect(url_for("index"))
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    classDatas = db.get_all_foodClassification()
+    return render_template("show_mer_add_dishes.html", classDatas=classDatas)
+
+
+# 管理员添加拥护
+@app.route("/man/do_man_add_users", methods=["POST"])
+def do_man_add_users():
+    status = request.cookies.get('status')
+    if status != "merchant":
+        return redirect(url_for("index"))
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    print(request.form)
+    merchant_id = request.cookies.get('user_id')
+    name = request.form.get("name")
+    classification_id = request.form.get("option")
+    picture = request.form.get("picture")
+    price = request.form.get("price")
+    description = request.form.get("description")
+    nutrition = request.form.get("nutrition")
+    ingredient = request.form.get("ingredient")
+    allergy = request.form.get("allergy")
+    datas = db.add_food(merchant_id=merchant_id, name=name, classification_id=classification_id, picture=picture,
+                        price=price,
+                        description=description, nutrition=nutrition, ingredient=ingredient, allergy=allergy)
+    return render_template("do_mer_add_dishes.html", datas=datas)
+
+
+
+
+
+
+
+
+# 管理员查看全部菜品并删除菜品
+@app.route("/man/man_watch_dishes_or_delete")
+def man_watch_dishes_or_delete():
+    status = request.cookies.get('status')
+    if status != "admin":
+        return redirect(url_for("index"))
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    datas = db.get_all_foods()
+    return render_template("man_watch_dishes_or_delete.html", datas=datas)
+
+# 管理员查看菜品详细信息
+@app.route("/man/man_watch_dishes/<food_id>")
+def man_watch_dishes(food_id):
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    datas = db.get_food_info(food_id=food_id)
+    data = datas[0]
+    classificationId = int(data["classificationId"])
+    classification = db.get_food_classification_name(classificationId)
+    return render_template("man_watch_dishes.html", food=data, classification=classification)
+
+
+# 管理员删除菜品
+@app.route("/man/man_do_dishes_or_delete/<food_id>")
+def man_do_dishes_or_delete(food_id):
+    status = request.cookies.get('status')
+    if status != "admin":
+        return redirect(url_for("index"))
+    if "user_name" not in session:
+        return redirect(url_for("index"))
+    print(request.form)
+    datas = db.delete_food(food_id=food_id)
+    result = datas["success"]
+    print("success" + str(result))
+    if result != None:
+        return render_template("man_do_dishes_or_delete.html", result=result)
+
+
+# 管理员管理商户(未实现)
 @app.route("/man/manage_all_merchant")
 def manage_all_merchant():
     if "user_name" not in session:
@@ -326,66 +425,61 @@ def manage_all_merchant():
     return render_template("show_add_user.html")
 
 
-# 管理员管理菜品
-@app.route("/man/manage_all_dishes")
-def manage_all_dishes():
-    if "user_name" not in session:
-        return redirect(url_for("index"))
-    return render_template("show_add_user.html")
 
 
-# 增加用户页面
-@app.route("/show_add_user")
-def show_add_user():
-    if "user_name" not in session:
-        return redirect(url_for("index"))
-    return render_template("show_add_user.html")
 
-
-# 增加用户操作
-@app.route("/do_add_user", methods=["POST"])
-def do_add_user():
-    if "user_name" not in session:
-        return redirect(url_for("index"))
-    print(request.form)
-    name = request.form.get("name")
-    sex = request.form.get("sex")
-    age = request.form.get("age")
-    email = request.form.get("email")
-    sql = f"""
-        insert into user(name,sex,age,email) 
-        values ('{name}','{sex}',{age},'{email}')
-    """
-    print(sql)
-    db.insert_or_update_data(sql)
-    return "success"
-
-
-# 展示用户列表
-@app.route("/show_users")
-def show_users():
-    if "user_name" not in session:
-        return redirect(url_for("index"))
-    sql = "select id,name from user"
-    datas = db.query_data(sql)
-    return render_template("show_users.html", datas=datas)
-
-
-# <tr>...</tr> 定义一行标签，一组行标签内可以建立多组由<td>或<th>标签所定义的单元格
-# <th>...</th>定义表头单元格。表格中的文字将以粗体显示
-# <td>...</td> 定义单元格标签
-
-# 查看单个用户
-@app.route("/show_user/<user_id>")
-def show_user(user_id):
-    if "user_name" not in session:
-        return redirect(url_for("index"))
-    sql = "select * from user where id=" + user_id
-    datas = db.query_data(sql)
-    # print(datas)
-    user = datas[0]
-    # print(user)
-    return render_template("show_user.html", user=user)
+# # 增加用户页面
+# @app.route("/show_add_user")
+# def show_add_user():
+#     if "user_name" not in session:
+#         return redirect(url_for("index"))
+#     return render_template("show_add_user.html")
+#
+#
+# # 增加用户操作
+# @app.route("/do_add_user", methods=["POST"])
+# def do_add_user():
+#     if "user_name" not in session:
+#         return redirect(url_for("index"))
+#     print(request.form)
+#     name = request.form.get("name")
+#     sex = request.form.get("sex")
+#     age = request.form.get("age")
+#     email = request.form.get("email")
+#     sql = f"""
+#         insert into user(name,sex,age,email)
+#         values ('{name}','{sex}',{age},'{email}')
+#     """
+#     print(sql)
+#     db.insert_or_update_data(sql)
+#     return "success"
+#
+#
+# # 展示用户列表
+# @app.route("/show_users")
+# def show_users():
+#     if "user_name" not in session:
+#         return redirect(url_for("index"))
+#     sql = "select id,name from user"
+#     datas = db.query_data(sql)
+#     return render_template("show_users.html", datas=datas)
+#
+#
+# # <tr>...</tr> 定义一行标签，一组行标签内可以建立多组由<td>或<th>标签所定义的单元格
+# # <th>...</th>定义表头单元格。表格中的文字将以粗体显示
+# # <td>...</td> 定义单元格标签
+#
+# # 查看单个用户
+# @app.route("/show_user/<user_id>")
+# def show_user(user_id):
+#     if "user_name" not in session:
+#         return redirect(url_for("index"))
+#     sql = "select * from user where id=" + user_id
+#     datas = db.query_data(sql)
+#     # print(datas)
+#     user = datas[0]
+#     # print(user)
+#     return render_template("show_user.html", user=user)
 
 
 if __name__ == '__main__':
