@@ -249,11 +249,17 @@ def get_all_foods():
 
 # 18. 用户注册
 def register_user(student_number, pwd, name, sex, birthdate):
-    sql = f"""
+    # 检查 student_number 是否已存在
+    check_sql = f"SELECT * FROM User WHERE student_number = '{student_number}'"
+    check_result = query_data(check_sql)
+    if "error" not in check_result and check_result:
+        return {"success": "Student number already exists"}
+    # 插入新用户
+    insert_sql = f"""
     INSERT INTO User (student_number, pwd, name, sex, BirthDate) 
     VALUES ('{student_number}', '{pwd}', '{name}', '{sex}', '{birthdate}')
     """
-    return insert_or_update_data(sql)
+    return insert_or_update_data(insert_sql)
 
 # 19. 用户点餐
 def place_order(user_id, merchant_id, details, price_amount):
