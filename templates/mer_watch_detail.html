@@ -18,6 +18,22 @@
             <th>添加时间</th>
             <td>{{ merchant["add_time"] }}</td>
         </tr>
+        <tr>
+            <th>热销食品</th>
+            <td>{{ ana_datas["food_name"] }}</td>
+        </tr>
+                <tr>
+            <th>热销评分</th>
+            <td>{{ ana_datas["food_score"] }}</td>
+        </tr>
+                <tr>
+            <th>热销销量</th>
+            <td>{{ ana_datas["food_sales_volume"] }}</td>
+        </tr>
+                <tr>
+            <th>忠实用户</th>
+            <td>{{ ana_datas["top_buyer"] }}</td>
+        </tr>
     </table>
 </form>
 {% include 'footer.html' %}

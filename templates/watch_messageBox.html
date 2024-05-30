@@ -2,22 +2,26 @@
 <h1>查看消息盒子</h1>
 <form>
     <table border="1">
-             <tr>
-                <th>消息ID</th>
-                <th>订单ID</th>
-                 <th>内容</th>
-                 <th>状态</th>
-                <th>时间</th>
-            </tr>
+        <tr>
+            <th>消息ID</th>
+            <th>订单ID</th>
+            <th>内容</th>
+            <th>状态</th>
+            <th>时间</th>
+        </tr>
+        {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
             {% for message in datas %}
                 <tr>
-                    <td>{{ message["id"]}}</td>
-                    <td>{{ message["orderId"]}}</td>
-                    <td>{{ message["content"]}}</td>
-                    <td>{{ message["status"]}}</td>
-                    <td>{{ message["add_time"]}}</td>
+                    <td>{{ message["id"] }}</td>
+                    <td>{{ message["orderId"] }}</td>
+                    <td>{{ message["content"] }}</td>
+                    <td>{{ message["status"] }}</td>
+                    <td>{{ message["add_time"] }}</td>
                 </tr>
             {% endfor %}
+        {% endif %}
     </table>
 </form>
 {% include 'footer.html' %}

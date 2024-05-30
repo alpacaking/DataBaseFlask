@@ -1,0 +1,31 @@
+{% include 'header_admin.html' %}
+<h1>所有商户</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>账号</th>
+            <th>密码</th>
+            <th>姓名</th>
+            <th>地址</th>
+            <th>添加时间</th>
+            <th>删除</th>
+        </tr>
+        {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
+            {% for merchant in datas %}
+                <tr>
+                    <td>{{ merchant["id"] }}</td>
+                    <td>{{ merchant["account"] }}</td>
+                    <td>{{ merchant["pwd"] }}</td>
+                    <td>{{ merchant["name"] }}</td>
+                    <td>{{ merchant["address"] }}</td>
+                    <td>{{ merchant["add_time"] }}</td>
+                    <td><a href="/man/man_do_mers_or_delete/{{ merchant["id"] }}">删除</a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

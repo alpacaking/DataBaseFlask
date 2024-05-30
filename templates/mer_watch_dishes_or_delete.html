@@ -2,22 +2,26 @@
 <h1>所有餐品</h1>
 <form>
     <table border="1">
-             <tr>
-                <th>名称</th>
-                 <th>价格</th>
-                 <th>评分</th>
-                <th>查看详情</th>
-                 <th>删除</th>
-            </tr>
+        <tr>
+            <th>名称</th>
+            <th>价格</th>
+            <th>评分</th>
+            <th>查看详情</th>
+            <th>删除</th>
+        </tr>
+        {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
             {% for food in datas %}
                 <tr>
-                    <td>{{ food["name"]}}</td>
-                    <td>{{ food["price"]}}</td>
-                    <td>{{ food["score"]}}</td>
-                    <td><a href="/mer/mer_watch_dishes/{{ food["id"]}}">查看详情</a></td>
-                    <td><a href="/mer/mer_do_dishes_or_delete/{{ food["id"]}}">删除</a></td>
+                    <td>{{ food["name"] }}</td>
+                    <td>{{ food["price"] }}</td>
+                    <td>{{ food["score"] }}</td>
+                    <td><a href="/mer/mer_watch_dishes/{{ food["id"] }}">查看详情</a></td>
+                    <td><a href="/mer/mer_do_dishes_or_delete/{{ food["id"] }}">删除</a></td>
                 </tr>
             {% endfor %}
+        {% endif %}
     </table>
 </form>
 {% include 'footer.html' %}

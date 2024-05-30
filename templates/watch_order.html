@@ -1,0 +1,53 @@
+{% include 'header_user.html' %}
+<h1>查看订单详情</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>订单ID</th>
+            <td>{{ userorder["id"] }}</td>
+        </tr>
+        <tr>
+            <th>详情</th>
+            <td>{{ userorder["detail"] }}</td>
+        </tr>
+        <tr>
+            <th>查看食品详情</th>
+            <td><a href="/user/watch_dishes/{{ userorder["foodId"] }}">查看食品详情</a></td>
+        </tr>
+        <tr>
+            <th>价格</th>
+            <td>{{ userorder["price_amount"] }}</td>
+        </tr>
+        <tr>
+            <th>状态</th>
+            <td>{{ userorder["status"] }}</td>
+        </tr>
+        <tr>
+            <th>是否支付</th>
+            <td>{{ userorder["is_paid"] }}</td>
+        </tr>
+        <tr>
+            <th>添加时间</th>
+            <td>{{ userorder["add_time"] }}</td>
+        </tr>
+        <tr>
+            <th>评价食品</th>
+            {% if   havedonefood %}
+                <td>已评价</td>
+            {% else %}
+                <td><a href="/user/show_score_dishes/{{ userorder["id"] }}">去评价</a></td>
+                </tr>
+            {% endif %}
+        </tr>
+        <tr>
+            <th>评价店家</th>
+            {% if  havedonemer  %}
+                <td>已评价</td>
+            {% else %}
+                <td><a href="/user/show_score_merchant/{{ userorder["id"] }}">去评价</a></td>
+                </tr>
+            {% endif %}
+        </tr>
+    </table>
+</form>
+{% include 'footer.html' %}

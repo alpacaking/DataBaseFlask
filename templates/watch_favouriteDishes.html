@@ -9,6 +9,9 @@
                  <th>价格</th>
                 <th>查看详情</th>
             </tr>
+            {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
             {% for food in datas %}
                 <tr>
                     <td>{{ food["id"]}}</td>
@@ -18,6 +21,7 @@
                     <td><a href="/user/watch_dishes/{{ food["id"]}}">查看详情</a></td>
                 </tr>
             {% endfor %}
+    {% endif %}
     </table>
 </form>
 {% include 'footer.html' %}

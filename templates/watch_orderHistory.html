@@ -9,15 +9,19 @@
             <th>订单状态</th>
             <th>查看详情</th>
         </tr>
+        {% if not datas %}
+        <p>Nothing found.</p>
+        {% else %}
         {% for userorder in datas %}
             <tr>
-                <td>{{ userorder["id"]}}</td>
-                <td>{{ userorder["add_time"]}}</td>
-                <td>{{ userorder["detail"]}}</td>
-                <td>{{ userorder["status"]}}</td>
-                <td><a href="/user/watch_dishes/{{ userorder["id"] }}">查看详情</a></td>
-            </tr>
+            <td>{{ userorder["id"] }}</td>
+            <td>{{ userorder["add_time"] }}</td>
+            <td>{{ userorder["detail"] }}</td>
+            <td>{{ userorder["status"] }}</td>
+            <td><a href="/user/watch_order/{{ userorder["id"] }}">查看详情</a></td>
+
         {% endfor %}
+        {% endif %}
     </table>
 </form>
 {% include 'footer.html' %}

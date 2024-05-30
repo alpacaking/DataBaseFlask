@@ -1,0 +1,12 @@
+{% include 'header_user.html' %}
+<h1>结果</h1>
+<form>
+    <table border="1">
+        {% if  datas ==False %}
+            <p>失败</p>
+        {% else %}
+            <p>成功</p>
+        {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

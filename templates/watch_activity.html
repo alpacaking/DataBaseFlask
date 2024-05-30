@@ -1,0 +1,20 @@
+{% include 'header_user.html' %}
+<h1>查看活跃度</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>时间</th>
+            <th>订单数量</th>
+        </tr>
+        {% if not datas %}
+        <p>Nothing found.</p>
+        {% else %}
+        {% for userorder in datas %}
+            <tr>
+            <td>{{ userorder["day"] }}</td>
+            <td>{{ userorder["order_count"] }}</td>
+        {% endfor %}
+        {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

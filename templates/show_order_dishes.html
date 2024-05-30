@@ -1,0 +1,15 @@
+{% include 'header_user.html' %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>添加菜品</h1>
+        <form action="/user/do_order_dishes/{{ food_id }}" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">备注</label>
+                <input type="text" name="detail" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+{% include 'footer.html' %}

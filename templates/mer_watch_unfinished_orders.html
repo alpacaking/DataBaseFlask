@@ -1,0 +1,29 @@
+{% include 'header_merchant.html' %}
+<h1>查看订单历史</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>订单ID</th>
+            <th>订单时间</th>
+            <th>订单详情</th>
+            <th>订单状态</th>
+            <th>查看详情</th>
+            <th>完成订单</th>
+        </tr>
+    {% if not datas %}
+        <p>Nothing found.</p>
+    {% else %}
+        {% for userorder in datas %}
+            <tr>
+                <td>{{ userorder["id"]}}</td>
+                <td>{{ userorder["add_time"]}}</td>
+                <td>{{ userorder["detail"]}}</td>
+                <td>{{ userorder["status"]}}</td>
+                <td><a href="/mer/mer_watch_dishes/{{ userorder["foodId"] }}">查看详情</a></td>
+                <td><a href="/mer/mer_do_finished_orders/{{ userorder["id"] }}">完成订单</a></td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

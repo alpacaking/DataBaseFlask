@@ -22,6 +22,14 @@
             <th>查看所有菜品</th>
             <td><a href="/user/watch_merchant_dishes/{{ merchant["id"]}}">查看详情</a></td>
         </tr>
+        <tr>
+            {% if  havedonemer %}
+                <td>已收藏</td>
+            {% else %}
+                <td><a href="/user/do_like_mer/{{ merchant["id"] }}">收藏</a></td>
+                </tr>
+            {% endif %}
+        </tr>
     </table>
 </form>
 {% include 'footer.html' %}

@@ -1,0 +1,31 @@
+{% include 'header_admin.html' %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>添加或修改商家，相同账号视为修改</h1>
+        <form action="/man/do_man_add_mers" method="post">
+            <div class="form-group">
+                <label for="exampleInputEmail1">名称</label>
+                <input type="text" name="name" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">账号</label>
+                <input type="text" name="account" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">密码</label>
+                <input type="text" name="pwd" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">地址</label>
+                <input type="text" name="address" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+            </div>
+
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+{% include 'footer.html' %}

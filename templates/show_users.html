@@ -1,20 +1,23 @@
 {% include 'header.html' %}
-    <h1>查看用户列表</h1>
-    <form>
-        <table border="1">
-            <tr>
-                <th>用户ID</th>
-                <th>用户名称</th>
-                <th>查看详情</th>
-            </tr>
+<h1>查看用户列表</h1>
+<form>
+    <table border="1">
+        <tr>
+            <th>用户ID</th>
+            <th>用户名称</th>
+            <th>查看详情</th>
+        </tr>
+        {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
             {% for user in datas %}
                 <tr>
-                    <td>{{ user["id"]}}</td>
-                    <td>{{ user["name"]}}</td>
-                    <td><a href="/show_user/{{ user["id"]}}">查看详情</a></td>
+                    <td>{{ user["id"] }}</td>
+                    <td>{{ user["name"] }}</td>
+                    <td><a href="/show_user/{{ user["id"] }}">查看详情</a></td>
                 </tr>
             {% endfor %}
-
-        </table>
-    </form>
+        {% endif %}
+    </table>
+</form>
 {% include 'footer.html' %}

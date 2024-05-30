@@ -1,0 +1,21 @@
+{% include 'header_user.html' %}
+<h1>查看收藏餐品</h1>
+<form>
+    <table border="1">
+             <tr>
+                <th>名称</th>
+                 <th>销量</th>
+            </tr>
+            {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
+            {% for food in datas %}
+                <tr>
+                    <td>{{ food["food_name"]}}</td>
+                <td>{{ food["sales_count"]}}</td>
+                </tr>
+            {% endfor %}
+    {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

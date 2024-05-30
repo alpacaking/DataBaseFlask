@@ -1,0 +1,23 @@
+{% include 'header_merchant.html' %}
+<h1>查看一段时间内某个忠实粉丝在该商户的消费分布</h1>
+<form>
+    <table border="1">
+             <tr>
+                <th>姓名</th>
+                 <th>菜名</th>
+                 <th>购买量</th>
+            </tr>
+            {% if not datas %}
+            <p>Nothing found.</p>
+        {% else %}
+            {% for food in datas %}
+                <tr>
+                    <td>{{ food["user_name"]}}</td>
+                    <td>{{ food["food_name"]}}</td>
+                <td>{{ food["purchase_count"]}}</td>
+                </tr>
+            {% endfor %}
+    {% endif %}
+    </table>
+</form>
+{% include 'footer.html' %}

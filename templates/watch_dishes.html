@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <th>图片</th>
-            <td><img src="/static/fudanLogo.png"/></td>
+            <td><img src="/static/{{ food["picture"] }}"/></td>
         </tr>
         <tr>
             <th>评分</th>
@@ -45,6 +45,17 @@
         <tr>
             <th>过敏原</th>
             <td>{{ food["allergy"] }}</td>
+        </tr>
+        <tr>
+            <td><a href="/user/order_dishes/{{ food["id"] }}">点餐</a></td>
+        </tr>
+        <tr>
+            {% if  havedonefood %}
+                <td>已收藏</td>
+            {% else %}
+                <td><a href="/user/do_like_dishes/{{ food["id"] }}">收藏</a></td>
+                </tr>
+            {% endif %}
         </tr>
     </table>
 </form>
